@@ -9,7 +9,7 @@ from typing import Any
 
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 from classes import MonthlyBudget
 
@@ -95,7 +95,7 @@ def build_budget_agent(limit: float = 1000.0, model: str = "gpt-5.4-mini"):
         "Use tools to add/edit/delete/list expenses and answer budget questions. "
         "Always use YYYY-MM-DD for dates when calling tools."
     )
-    return create_react_agent(model=llm, tools=_build_tools(budget), prompt=prompt)
+    return create_agent(model=llm, tools=_build_tools(budget), system_prompt=prompt)
 
 
 def run_cli() -> None:
