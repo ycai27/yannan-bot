@@ -44,6 +44,9 @@ class MonthlyBudget:
     def list_expenses(self) -> pd.DataFrame:
         return self.expenses.copy()
     
+    def total_spent(self) -> float:
+        return float(self.expenses["cost"].sum()) if not self.expenses.empty else 0.0
+    
     def summary(self) -> dict[str, float]:
         spent = self.total_spent()
         return {
