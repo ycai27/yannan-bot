@@ -67,7 +67,7 @@ def _build_tools(budget: MonthlyBudget):
     @tool
     def list_expenses() -> list[dict[str, Any]]:
         """Return all expenses as JSON-serializable rows."""
-        rows = budget.expenses.copy()
+        rows = budget.list_expenses().copy()
         if rows.empty:
             return []
         rows["date"] = rows["date"].astype(str)
@@ -76,12 +76,7 @@ def _build_tools(budget: MonthlyBudget):
     @tool
     def budget_summary() -> dict[str, float]:
         """Return limit, spent, and remaining amounts."""
-        spent = float(budget.expenses["cost"].sum()) if not budget.expenses.empty else 0.0
-        return {
-            "limit": float(budget.limit),
-            "spent": spent,
-            "remaining": float(budget.limit - spent),
-        }
+        return budget.summary()
 
     return [add_expense, edit_expense, delete_expense, list_expenses, budget_summary]
 

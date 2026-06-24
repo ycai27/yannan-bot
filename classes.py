@@ -40,3 +40,14 @@ class MonthlyBudget:
             raise IndexError(f"Expense index {index} does not exist.")
 
         self.expenses = self.expenses.drop(index).reset_index(drop=True)
+
+    def list_expenses(self) -> pd.DataFrame:
+        return self.expenses.copy()
+    
+    def summary(self) -> dict[str, float]:
+        spent = self.total_spent()
+        return {
+            "limit": self.limit,
+            "spent": spent,
+            "remaining": self.limit - spent,
+        } 
